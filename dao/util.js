@@ -5,7 +5,7 @@ module.exports = function () {
         host: 'localhost',
         port:3306,
         user: 'root',
-        password: 'oyp.123',
+        password: 's09222393b',
         database: 'postgraduate'
     });
 }
