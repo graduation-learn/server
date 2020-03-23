@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const type = 'politics';
-const Type = 'Politics';
+const type = 'profession';
+const Type = 'profession';
 
 /**
  * 添加dao层的list
