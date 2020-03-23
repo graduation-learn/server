@@ -15,5 +15,7 @@ module.exports = {
     routerMathDetail: require('./math/mathDetail'),
 
     routerProfessionList: require('./profession/professionList'),
-    routerProfessionDetail: require('./profession/professionDetail')
+    routerProfessionDetail: require('./profession/professionDetail'),
+
+    routeLogin:require('./login-register/login.js')
 }
