@@ -1,23 +1,33 @@
 const loginInfo = require('../../dao/login-register/login');
-
-exports.queryLoginInfo = async (username1,password1) => {
-    const result = await loginInfo.queryLoginInfo(username1);
-    console.log(result)
-    if(result.length){
-        const username = result[0].username;
-        const password = result[0].password;
-        if(username1 == username && password1 == password){
+const bcryptjs = require('bcryptjs');
+const jsonwebtoken = require('jsonwebtoken');
+const SECRETKEY = "jason-oyp";
+exports.queryLoginInfo = async (username, rowPassword) => {
+    const result = await loginInfo.queryLoginInfo(username);
+    if (result.length) {
+        const secretPassword = result[0].password;
+        const id = result[0].id;
+        const isPasswordVilid = bcryptjs.compareSync(rowPassword, secretPassword);
+        if (isPasswordVilid) {
+            const token = jsonwebtoken.sign({
+                id: String(id)
+            }, SECRETKEY);
             return {
-                status:200,
-                message:'登录成功',
-                username
+                status: 200,
+                message: '登录成功',
+                token,
+                data: result[0]
+            }
+        } else {
+            return {
+                status: 422,
+                message: '密码错误',
             }
         }
-    }else{
+    } else {
         return {
-            status:400,
-            message:'账号或密码错误',
+            status: 422,
+            message: '用户名不存在'
         }
     }
-    
 }
