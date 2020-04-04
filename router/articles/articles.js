@@ -42,7 +42,10 @@ router.get('/queryArticleDetailById', verification, async (req, res) => {
     res.send(await articlesService.queryArticleDetailById(id));
 });
 
-
+router.get('/queryTitleListByKeyValueAndPage', async (req, res) => {
+    const queryObj = req.query;
+    res.send(await articlesService.queryTitleListByKeyValueAndPage(queryObj));
+});
 
 
 module.exports = router;

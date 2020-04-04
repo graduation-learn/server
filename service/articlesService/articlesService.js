@@ -47,3 +47,12 @@ exports.queryArticleDetailById = async (id) => {
     delete result.text;
     return result;
 }
+
+exports.queryTitleListByKeyValueAndPage = async (queryObj) => {
+    let result = await articlesDao.queryTitleListByKeyValueAndPage(queryObj);
+    for (const prop of result) {
+        prop.ctime = new Date(prop.ctime).toLocaleDateString();
+    }
+    const count = await articlesDao.queryTitleListCountByKeyValue(queryObj.wd);
+    return { result, count: count.count };
+}

@@ -105,3 +105,37 @@ exports.queryArticleDetailById = function (id) {
         connect.end(); //关闭连接
     })
 }
+
+exports.queryTitleListByKeyValueAndPage = ({ wd, page, limit }) => {
+    return new Promise((resolve, reject) => {
+        const connect = connection();
+        connect.connect();
+        const sql = "select * from articles where  (`title` like ?  or `text` like ?) and is_delete = 0 and `status` = 1 limit ?,?";
+        const params = ["%" + wd + "%", "%" + wd + "%", (page - 1) * limit, +limit];
+        connect.query(sql, params, (err, results) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(results);
+            }
+        })
+        connect.end(); //关闭连接
+    })
+}
+
+exports.queryTitleListCountByKeyValue = function (keyValue) {
+    return new Promise((resolve, reject) => {
+        const connect = connection();
+        connect.connect();
+        const sql = "select count(id) as count from articles where (`title` like ?  or `text` like ?) and `status` = 1 and `is_delete` = 0";
+        const params = ["%" + keyValue + "%", "%" + keyValue + "%"];
+        connect.query(sql, params, (err, results) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(results[0]);
+            }
+        })
+        connect.end(); //关闭连接
+    })
+}
