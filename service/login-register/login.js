@@ -2,8 +2,9 @@ const loginInfo = require('../../dao/login-register/login');
 const bcryptjs = require('bcryptjs');
 const jsonwebtoken = require('jsonwebtoken');
 const SECRETKEY = "jason-oyp";
-exports.queryLoginInfo = async (username, rowPassword) => {
-    const result = await loginInfo.queryLoginInfo(username);
+exports.queryLoginInfo = async (username, rowPassword, isAdmin) => {
+    const result = isAdmin ? await loginInfo.queryLoginInfoByAdmin(username) : await loginInfo.queryLoginInfo(username);
+    console.log(result);
     if (result.length) {
         const secretPassword = result[0].password;
         const id = result[0].id;

@@ -3,9 +3,9 @@ const bcryptjs = require('bcryptjs');
 const jsonwebtoken = require('jsonwebtoken');
 const SECRETKEY = "jason-oyp";
 
-exports.registerUser = async (username, password) => {
+exports.registerUser = async (username, password, isAdmin, phone, gender) => {
     password = bcryptjs.hashSync(password, 10);
-    const result = await registerDao.registerUser(username, password);
+    const result = isAdmin ? await registerDao.registerAdmin(username, password) : await registerDao.registerUser(username, password, phone, gender);
     if (!result.insertId) {
         return {
             message: '用户名已存在',

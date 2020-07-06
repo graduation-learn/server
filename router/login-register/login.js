@@ -6,7 +6,8 @@ const { verification } = require('../verification');
 router.post('/login', async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
-    const result = await loginInfo.queryLoginInfo(username, password);
+    const isAdmin = req.body.isAdmin;
+    const result = await loginInfo.queryLoginInfo(username, password, isAdmin);
     res.send(result);
 });
 

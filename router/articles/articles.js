@@ -27,8 +27,9 @@ router.post('/updateArticleById', verification, async (req, res) => {
 })
 
 router.get('/queryArticleByUserIdAndType', verification, async (req, res) => {
-    const { userId, type, status } = req.query; // 用户的id和文章的类型
-    res.send(await articlesService.queryArticleByUserIdAndType(userId, type, status));
+    const { userId, type, status, page, limit } = req.query; // 用户的id和文章的类型
+    console.log(userId, type, status, page, limit);
+    res.send(await articlesService.queryArticleByUserIdAndType(userId, type, status, page, limit));
 });
 
 
@@ -47,5 +48,17 @@ router.get('/queryTitleListByKeyValueAndPage', async (req, res) => {
     res.send(await articlesService.queryTitleListByKeyValueAndPage(queryObj));
 });
 
+router.get('/queryArticleByPageAndExamine', verification, async (req, res) => {
+    const { examineType, page, limit, type, from, } = req.query;
+    res.send(await articlesService.queryArticleByPageAndExamine(type, from, examineType, page, limit));
+});
+
+
+router.post('/updateArticleStatusById', verification, async (req, res) => {
+    await articlesService.updateArticleStatusById(req.body.status, req.body.id, req.body.fail_reason, req.body.success_time);
+    res.send({
+        message: "success"
+    });
+})
 
 module.exports = router;
